@@ -1,0 +1,22 @@
+[package]
+name = "pizza-analysis-nori"
+version = "0.1.0"
+authors = ["INFINI Labs <hello@infini.ltd>"]
+edition = "2021"
+license = "MIT"
+description = "Korean morphological analysis for INFINI Pizza — wraps lindera with ko-dic"
+repository = "https://pizza.rs"
+keywords = ["pizza", "korean", "nori", "tokenizer", "morphology"]
+
+
+[features]
+default = ["embed-dict"]
+embed-dict = ["lindera/embed-ko-dic"]
+std = ["pizza-engine/std"]
+
+[dependencies]
+pizza-engine = { path = "../../lib/engine", default-features = false }
+hashbrown = { version = "0.14", default-features = false }
+lindera = { version = "3.0", default-features = false }
+
+[dev-dependencies]
