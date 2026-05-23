@@ -1,96 +1,72 @@
-# pizza-analysis-nori
+<div align="center">
 
-Korean morphological analysis for the [Pizza](https://pizza.rs) search engine. Wraps the [Lindera](https://github.com/lindera/lindera) library with the ko-dic dictionary for tokenization, reading form conversion, and POS-based filtering.
+# 🇰🇷 pizza-analysis-nori
+
+**Korean morphological analysis plugin for [INFINI Pizza](https://pizza.rs)**
+
+[![Crate](https://img.shields.io/badge/crate-pizza--analysis--nori-blue)](https://github.com/pizza-rs/analysis-nori)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+</div>
+
+---
+
+## Overview
+
+Korean morphological analyzer built on [lindera](https://github.com/lindera/lindera) with
+the Korean dictionary. Provides tokenization with compound-word decomposition,
+part-of-speech filtering, and reading form conversion — matching the Elasticsearch
+`analysis-nori` plugin feature set.
 
 ## Components
 
-| Name | Type | Description |
-|------|------|-------------|
-| `nori_tokenizer` | Tokenizer | Korean morphological tokenizer with decompound modes |
-| `nori_part_of_speech` | Token Filter | Remove tokens by part-of-speech (POS) tags |
-| `nori_readingform` | Token Filter | Convert Hanja (漢字) to Hangul reading |
-| `ko_stop` | Token Filter | Remove Korean stop words |
-| `nori` | Analyzer | Full Korean pipeline |
-
-## Usage
-
-### Full Analyzer
-
-The `nori` analyzer combines all components into a standard Korean analysis pipeline:
-
-```json
-{
-  "analyzer": {
-    "type": "nori"
-  }
-}
-```
-
-Pipeline: `nori_tokenizer` → `nori_part_of_speech` → `nori_readingform`
+| Type | Name | Description |
+|:-----|:-----|:------------|
+| Tokenizer | `nori_tokenizer` | Korean morphological tokenizer with decompounding |
+| TokenFilter | `nori_part_of_speech` | Remove tokens by POS tag (particles, punctuation) |
+| TokenFilter | `nori_readingform` | Convert Hanja (漢字) to Hangul reading |
+| TokenFilter | `ko_stop` | Korean stop words |
+| Analyzer | `nori` | Full pipeline: nori_tokenizer → POS filter → readingform → stop |
 
 ### Decompound Modes
 
-| Mode | Description |
-|------|-------------|
-| `none` | No decompounding of compound nouns |
-| `discard` | Decompound and discard the original compound form (default) |
-| `mixed` | Decompound and keep both the original and sub-tokens |
+| Mode | Behavior | Example (가곡역) |
+|:-----|:---------|:--------|
+| `None` | Keep as-is | `가곡역` |
+| `Discard` | Only emit parts | `가곡` + `역` |
+| `Mixed` | Emit parts + original | `가곡` + `역` + `가곡역` |
 
-### Examples
+## Example
 
-**Input:** `가거도항`
+```rust
+use pizza_engine::analysis::Tokenizer;
+use pizza_analysis_nori::{NoriTokenizer, NoriDecompoundMode};
 
-| Mode | Output |
-|------|--------|
-| None | `가거도항` |
-| Discard | `가거도`, `항` |
-| Mixed | `가거도항`, `가거도`, `항` |
-
-**Input:** `碩765765`
-
-| Component | Output |
-|-----------|--------|
-| Tokenizer | `碩`, `765765` |
-| + Readingform | `석`, `765765` |
-
-### Custom Analyzer
-
-```json
-{
-  "analyzer": {
-    "type": "custom",
-    "tokenizer": "nori_tokenizer",
-    "filter": ["nori_part_of_speech", "nori_readingform", "ko_stop"]
-  }
-}
+let tk = NoriTokenizer::new(NoriDecompoundMode::Mixed);
+let tokens = tk.tokenize("가곡역");
+// Mixed mode: ["가곡", "역", "가곡역"]
 ```
 
-## Stop Words
+## Installation
 
-Default Korean stop words include common particles and postpositions:
-`이`, `그`, `저`, `것`, `수`, `등`, `들`, `및`, `에`, `의`, `가`, `으로`, `에서`, `를`, `은`, `는`, `도`, `와`, `과`, `하다`, ...
+```toml
+[dependencies]
+pizza-analysis-nori = "0.1"
+```
 
-## POS Tags Filtered by Default
+Or via `pizza-analysis-all`:
 
-Particles, suffixes, and punctuation:
-- `E` — Verbal endings
-- `IC` — Interjections
-- `J` — Particles (postpositions)
-- `MAG` — General adverbs
-- `SP` — Spaces
-- `SSC`/`SSO` — Brackets
-- `SC`/`SE`/`SF`/`SY` — Punctuation/symbols
-- `XPN`/`XSA`/`XSN`/`XSV` — Prefixes/suffixes
-
-## Data Sources
-
-- **Dictionary**: mecab-ko-dic — the same dictionary used by Apache Lucene's Nori analyzer
-- **Embedded via**: `lindera` 3.0 with `embed-ko-dic` feature
-
-## Features
-
-- `embed-dict` (default) — Embeds the ko-dic dictionary at compile time
+```toml
+[dependencies]
+pizza-analysis-all = { version = "0.1", features = ["nori"] }
+```
 
 ## License
 
-Apache-2.0
+MIT
+
+---
+
+<div align="center">
+<sub>Part of the <a href="https://pizza.rs">INFINI Pizza</a> ecosystem</sub>
+</div>
