@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["INFINI Labs <hello@infini.ltd>"]
 edition = "2021"
 license = "MIT"
-description = "Korean morphological analysis for INFINI Pizza — wraps lindera with ko-dic"
+description = "Korean morphological analysis plugin for INFINI Pizza (ko-dic)"
 repository = "https://pizza.rs"
 keywords = ["pizza", "korean", "nori", "tokenizer", "morphology"]
 
