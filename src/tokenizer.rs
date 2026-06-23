@@ -8,7 +8,6 @@
 use alloc::borrow::Cow;
 use alloc::sync::Arc;
 
-use lindera::dictionary::load_dictionary;
 use lindera::mode::Mode as LinderaMode;
 use lindera::segmenter::Segmenter;
 use lindera::tokenizer::Tokenizer as LinderaTokenizer;
@@ -45,8 +44,7 @@ impl NoriTokenizer {
             }
         };
 
-        let dictionary = load_dictionary("embedded://ko-dic")
-            .expect("failed to load embedded ko-dic dictionary");
+        let dictionary = crate::dict::load_kodic();
         let segmenter = Segmenter::new(lindera_mode, dictionary, None);
         let tokenizer = LinderaTokenizer::new(segmenter);
         Self {

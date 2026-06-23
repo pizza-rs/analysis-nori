@@ -19,18 +19,18 @@ use crate::{
 /// - Analyzer: `nori` (KoreanAnalyzer pipeline: pos → readingform)
 pub fn register_all(factory: &mut AnalysisFactory) {
     // Tokenizers
-    factory.register_tokenizer("nori_tokenizer", Box::new(NoriTokenizer::new(NoriDecompoundMode::Discard)));
+    factory.register_tokenizer_with("nori_tokenizer", || Box::new(NoriTokenizer::new(NoriDecompoundMode::Discard)));
 
     // Token filters
-    factory.register_token_filter("nori_part_of_speech", Box::new(NoriPartOfSpeechFilter::with_defaults()));
-    factory.register_token_filter("nori_readingform", Box::new(NoriReadingformFilter::new()));
-    factory.register_token_filter("ko_stop", Box::new(KoreanStopFilter::new()));
+    factory.register_token_filter_with("nori_part_of_speech", || Box::new(NoriPartOfSpeechFilter::with_defaults()));
+    factory.register_token_filter_with("nori_readingform", || Box::new(NoriReadingformFilter::new()));
+    factory.register_token_filter_with("ko_stop", || Box::new(KoreanStopFilter::new()));
 
     // Analyzer: nori (matches Lucene KoreanAnalyzer pipeline)
     // Pipeline: tokenizer(discard) → part_of_speech → readingform
-    factory.register_analyzer(
+    factory.register_analyzer_with(
         "nori",
-        Analyzer::new(
+        || Analyzer::new(
             vec![],
             Box::new(NoriTokenizer::new(NoriDecompoundMode::Discard)),
             vec![

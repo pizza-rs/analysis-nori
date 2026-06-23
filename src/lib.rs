@@ -14,6 +14,7 @@ extern crate alloc;
 mod tokenizer;
 mod part_of_speech;
 mod readingform;
+mod dict;
 mod stop;
 
 pub use tokenizer::{NoriTokenizer, NoriDecompoundMode};

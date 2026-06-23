@@ -6,7 +6,6 @@
 use hashbrown::HashSet;
 use alloc::sync::Arc;
 
-use lindera::dictionary::load_dictionary;
 use lindera::mode::Mode as LinderaMode;
 use lindera::segmenter::Segmenter;
 use lindera::tokenizer::Tokenizer as LinderaTokenizer;
@@ -47,8 +46,7 @@ pub struct NoriPartOfSpeechFilter {
 impl NoriPartOfSpeechFilter {
     /// Create with a set of POS stop tags.
     pub fn new(stop_tags: Vec<String>) -> Self {
-        let dictionary = load_dictionary("embedded://ko-dic")
-            .expect("failed to load embedded ko-dic dictionary");
+        let dictionary = crate::dict::load_kodic();
         let segmenter = Segmenter::new(LinderaMode::Normal, dictionary, None);
         let tokenizer = LinderaTokenizer::new(segmenter);
         Self {
