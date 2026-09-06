@@ -26,7 +26,10 @@ pub(crate) fn load_kodic() -> Dictionary {
 
     #[cfg(feature = "embed-dict")]
     {
-        crate::dict::load_kodic()
+        // lindera-ko-dic's embedded dictionary (the previous code recursed
+        // into load_kodic itself, overflowing the stack on first use)
+        lindera_ko_dic::embedded::load()
+            .unwrap_or_else(|e| panic!("failed to load embedded ko-dic dictionary: {e}"))
     }
 
     #[cfg(not(feature = "embed-dict"))]

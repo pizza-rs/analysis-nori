@@ -11,12 +11,13 @@ keywords = ["pizza", "korean", "nori", "tokenizer", "morphology"]
 
 [features]
 default = ["embed-dict"]
-embed-dict = ["lindera/embed-ko-dic"]
+embed-dict = ["lindera/embed-ko-dic", "lindera-ko-dic/embed-ko-dic"]
 std = ["pizza-engine/std"]
 
 [dependencies]
 pizza-engine = { path = "../../lib/engine", default-features = false }
 hashbrown = { version = "0.14", default-features = false }
 lindera = { version = "3.0", default-features = false }
+lindera-ko-dic = { version = "3.0", default-features = false }
 
 [dev-dependencies]
