@@ -1,7 +1,10 @@
 //! Comprehensive tests for the `pizza-analysis-nori` crate.
 
 use pizza_analysis_nori::*;
-use pizza_engine::analysis::{AnalysisFactory, Token, TokenFilter, Tokenizer};
+use pizza_engine::analysis::AnalysisFactory;
+use pizza_engine::analysis::Token;
+use pizza_engine::analysis::TokenFilter;
+use pizza_engine::analysis::Tokenizer;
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -91,7 +94,11 @@ mod tokenizer {
         let tok = NoriTokenizer::new(NoriDecompoundMode::None);
         let tokens = tok.tokenize("Java언어");
         let t = terms(&tokens);
-        assert!(t.len() >= 1, "should produce tokens for mixed text, got {:?}", t);
+        assert!(
+            t.len() >= 1,
+            "should produce tokens for mixed text, got {:?}",
+            t
+        );
     }
 
     #[test]
@@ -99,10 +106,7 @@ mod tokenizer {
         let tok = NoriTokenizer::new(NoriDecompoundMode::None);
         let tokens = tok.tokenize("한국어를 처리합니다");
         for (i, token) in tokens.iter().enumerate() {
-            assert_eq!(
-                token.position, i as u32,
-                "positions should be sequential"
-            );
+            assert_eq!(token.position, i as u32, "positions should be sequential");
         }
     }
 
@@ -281,10 +285,7 @@ mod stop {
 
     #[test]
     fn custom_stop_words() {
-        let filter = KoreanStopFilter::with_words(vec![
-            "커스텀".to_string(),
-            "테스트".to_string(),
-        ]);
+        let filter = KoreanStopFilter::with_words(vec!["커스텀".to_string(), "테스트".to_string()]);
         assert!(filter_deleted(&filter, "커스텀"));
         assert!(filter_deleted(&filter, "테스트"));
         assert!(

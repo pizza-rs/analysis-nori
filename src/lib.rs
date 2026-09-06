@@ -11,15 +11,16 @@
 //! - [`NoriReadingformFilter`] — Convert Hanja to Hangul reading
 //! - [`KoreanStopFilter`] — Korean stop word removal
 extern crate alloc;
-mod tokenizer;
+mod dict;
 mod part_of_speech;
 mod readingform;
-mod dict;
 mod stop;
+mod tokenizer;
 
-pub use tokenizer::{NoriTokenizer, NoriDecompoundMode};
 pub use part_of_speech::NoriPartOfSpeechFilter;
 pub use readingform::NoriReadingformFilter;
 pub use stop::KoreanStopFilter;
+pub use tokenizer::NoriDecompoundMode;
+pub use tokenizer::NoriTokenizer;
 pub mod register;
 pub use register::register_all;

@@ -3,14 +3,15 @@
 //! Removes tokens whose part-of-speech matches configured stop tags.
 //! ko-dic POS tags follow the Sejong tagset.
 
-use hashbrown::HashSet;
 use alloc::sync::Arc;
+use hashbrown::HashSet;
 
 use lindera::mode::Mode as LinderaMode;
 use lindera::segmenter::Segmenter;
 use lindera::tokenizer::Tokenizer as LinderaTokenizer;
 
-use pizza_engine::analysis::{Token, TokenFilter};
+use pizza_engine::analysis::Token;
+use pizza_engine::analysis::TokenFilter;
 
 /// Default Korean stop POS tags (particles, suffixes, punctuation).
 pub const DEFAULT_KOREAN_STOP_TAGS: &[&str] = &[
@@ -57,7 +58,12 @@ impl NoriPartOfSpeechFilter {
 
     /// Create with default Korean stop tags.
     pub fn with_defaults() -> Self {
-        Self::new(DEFAULT_KOREAN_STOP_TAGS.iter().map(|s| s.to_string()).collect())
+        Self::new(
+            DEFAULT_KOREAN_STOP_TAGS
+                .iter()
+                .map(|s| s.to_string())
+                .collect(),
+        )
     }
 
     fn should_remove(&self, surface: &str) -> bool {

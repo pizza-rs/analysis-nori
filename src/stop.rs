@@ -5,15 +5,51 @@
 
 use hashbrown::HashSet;
 
-use pizza_engine::analysis::{Token, TokenFilter};
+use pizza_engine::analysis::Token;
+use pizza_engine::analysis::TokenFilter;
 
 /// Default Korean stop words (common particles, endings, copulas).
 pub const KOREAN_STOP_WORDS: &[&str] = &[
-    "이", "그", "저", "것", "수", "등", "들", "및", "에", "의",
-    "가", "를", "으로", "로", "에서", "와", "과", "도", "는", "은",
-    "만", "에게", "까지", "부터", "이다", "하다", "되다", "있다",
-    "없다", "않다", "같다", "위하다", "대하다", "통하다", "따르다",
-    "에서의", "로서", "로써", "라고", "이라고",
+    "이",
+    "그",
+    "저",
+    "것",
+    "수",
+    "등",
+    "들",
+    "및",
+    "에",
+    "의",
+    "가",
+    "를",
+    "으로",
+    "로",
+    "에서",
+    "와",
+    "과",
+    "도",
+    "는",
+    "은",
+    "만",
+    "에게",
+    "까지",
+    "부터",
+    "이다",
+    "하다",
+    "되다",
+    "있다",
+    "없다",
+    "않다",
+    "같다",
+    "위하다",
+    "대하다",
+    "통하다",
+    "따르다",
+    "에서의",
+    "로서",
+    "로써",
+    "라고",
+    "이라고",
 ];
 
 /// Removes Korean stop words from the token stream.
@@ -28,10 +64,7 @@ impl KoreanStopFilter {
     /// Create with default Korean stop words.
     pub fn new() -> Self {
         Self {
-            stop_words: KOREAN_STOP_WORDS
-                .iter()
-                .map(|s| s.to_string())
-                .collect(),
+            stop_words: KOREAN_STOP_WORDS.iter().map(|s| s.to_string()).collect(),
         }
     }
 

@@ -12,7 +12,8 @@ use lindera::mode::Mode as LinderaMode;
 use lindera::segmenter::Segmenter;
 use lindera::tokenizer::Tokenizer as LinderaTokenizer;
 
-use pizza_engine::analysis::{Token, Tokenizer};
+use pizza_engine::analysis::Token;
+use pizza_engine::analysis::Tokenizer;
 
 /// Decompound mode for Korean morphological analysis.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
