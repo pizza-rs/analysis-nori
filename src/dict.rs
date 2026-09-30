@@ -36,8 +36,9 @@ pub(crate) fn load_kodic() -> Dictionary {
     {
         panic!(
             "nori ko-dic dictionary not available: place a lindera ko-dic dictionary directory \
-             at <analysis dict dir>/nori/ko-dic and configure the analysis dict path, or build \
-             pizza-analysis-nori with the 'embed-dict' feature"
+             at config/analysis/nori/ko-dic ('make copy-analysis-dicts'; the analyzer sub-repo \
+             ships a cache under data/), or build pizza-analysis-nori with the 'embed-dict' \
+             feature"
         )
     }
 }
